@@ -169,18 +169,19 @@ interface InputRef {
   blur(): void;
 }
 
-
-let NewText :any = Text;
-
-NewText.defaultProps = {
-//@ts-ignore
-...Text.defaultProps,
-allowFontScaling: false,
-maxFontSizeMultiplier: 1,
+class MyCustomText extends React.Component<TextProps> {
+  render() {
+    return (
+      <Text
+        allowFontScaling={false}
+        maxFontSizeMultiplier={1}
+        {...this.props}
+      />
+    );
+  }
 }
 
-const AnimatedText = Animated.createAnimatedComponent(Text);
-
+const AnimatedText = Animated.createAnimatedComponent(MyCustomText);
 
 const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
   {
@@ -615,6 +616,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
         {staticLabel && (
           <AnimatedText
             {...labelProps}
+            allowFontScaling={false}
             onPress={setFocus}
             style={[
               style,
