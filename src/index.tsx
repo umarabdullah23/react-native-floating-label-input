@@ -51,7 +51,7 @@ export interface Props extends Omit<TextInputProps, 'secureTextEntry'> {
   /** Set the color to the hint */
   hintTextColor?: string;
   /** Value for the label, same as placeholder */
-  label: React.ReactNode;
+  label: string;
   /** Style to the label */
   labelStyles?: TextStyle;
   /** Set this to true if is password to have a show/hide input and secureTextEntry automatically */
@@ -169,7 +169,18 @@ interface InputRef {
   blur(): void;
 }
 
+
+let NewText :any = Text;
+
+NewText.defaultProps = {
+//@ts-ignore
+...Text.defaultProps,
+allowFontScaling: false,
+maxFontSizeMultiplier: 1,
+}
+
 const AnimatedText = Animated.createAnimatedComponent(Text);
+
 
 const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
   {
@@ -211,6 +222,9 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
     showPasswordImageStyles,
     value = '',
     animationDuration,
+
+    // allowFontScaling = false,
+    // maxFontSizeMultiplier = 1,
     ...rest
   }: Props,
   ref: any,
@@ -224,6 +238,7 @@ const FloatingLabelInput: React.ForwardRefRenderFunction<InputRef, Props> = (
   const sharedValueOpacity = useSharedValue(
     isFirstRender.current && value ? 0 : 1,
   );
+
 
   customLabelStyles = StyleSheet.flatten([
     {
